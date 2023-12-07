@@ -42,7 +42,7 @@ class QuadBlink extends QuadStyled { // quad-blink tag, limited functionality, o
     }
 }
 
-class QuadStrike extends QuadStyled { // quad-strike, quad-s tag
+class QuadStrike extends QuadStyled { // quad-strike tag
     constructor() {
         self = super();
 
@@ -50,7 +50,7 @@ class QuadStrike extends QuadStyled { // quad-strike, quad-s tag
         self.styleValue = "line-through";
     }
 }
-
+class QuadS extends QuadStrike {} // quad-s tag, just duplicate quad-strike
 class QuadU extends QuadStyled { // quad-u tag
     constructor() {
         self = super();
@@ -59,9 +59,10 @@ class QuadU extends QuadStyled { // quad-u tag
         self.styleValue = "underline";
     }
 }
+
 customElements.define("quad-center", QuadCenteredText);
 customElements.define("quad-marquee", QuadMarquee);
 customElements.define("quad-blink", QuadBlink);
 customElements.define("quad-strike", QuadStrike);
-customElements.define("quad-s", QuadStrike);
+customElements.define("quad-s", QuadS);
 customElements.define("quad-u", QuadU);
