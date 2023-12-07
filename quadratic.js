@@ -42,7 +42,7 @@ class QuadBlink extends QuadStyled { // quad-blink tag, limited functionality, o
     }
 }
 
-class QuadStrike extends QuadStyled { // quad-strike tag
+class QuadStrike extends QuadStyled { // quad-strike, quad-s tag
     constructor() {
         self = super();
 
@@ -63,4 +63,5 @@ customElements.define("quad-center", QuadCenteredText);
 customElements.define("quad-marquee", QuadMarquee);
 customElements.define("quad-blink", QuadBlink);
 customElements.define("quad-strike", QuadStrike);
+customElements.define("quad-s", QuadStrike);
 customElements.define("quad-u", QuadU);
