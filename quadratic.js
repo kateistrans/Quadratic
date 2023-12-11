@@ -53,10 +53,47 @@ class QuadStrike extends QuadStyled { // quad-strike tag
 class QuadS extends QuadStrike {} // quad-s tag, just duplicate quad-strike
 class QuadU extends QuadStyled { // quad-u tag
     constructor() {
-        self = super();
+        self = super();    
 
         self.styleName = "textDecoration";
         self.styleValue = "underline";
+    }
+}
+class QuadTT extends QuadStyled { // quad-tt tag
+    constructor() {
+        self = super();    
+
+        self.styleName = "fontFamily";
+        self.styleValue = `"Lucida Console", "Menlo", "Monaco", "Courier", monospace`;
+    }
+}
+class QuadBig extends QuadStyled { // quad-big tag
+    constructor() {
+        self = super();    
+
+        self.styleName = "fontSize";
+        self.styleValue = `larger`;
+    }
+}
+class QuadFont extends QuadStyled { // quad-font tag
+    static observedAttributes = ["color", "face", "size"];
+    constructor() {
+        self = super();
+    }
+
+    attributeChangedCallback(name, oldValue, newValue) {
+        if(name == "color") { 
+            self.style.color=newValue;
+            Array.prototype.forEach.call(self.getElementsByTagName('*'),(e)=>{e.style.color=newValue});
+        }
+        if(name == "face") { 
+            self.style.fontFamily=newValue;
+            Array.prototype.forEach.call(self.getElementsByTagName('*'),(e)=>{e.style.fontFamily=newValue});
+        }
+        if(name == "size") { 
+            self.style.fontSize=newValue;
+            Array.prototype.forEach.call(self.getElementsByTagName('*'),(e)=>{e.style.fontSize=newValue});
+        }
     }
 }
 
@@ -66,3 +103,6 @@ customElements.define("quad-blink", QuadBlink);
 customElements.define("quad-strike", QuadStrike);
 customElements.define("quad-s", QuadS);
 customElements.define("quad-u", QuadU);
+customElements.define("quad-tt", QuadTT);
+customElements.define("quad-big", QuadBig);
+customElements.define("quad-font", QuadFont);
