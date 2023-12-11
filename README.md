@@ -14,9 +14,10 @@ Here is a checklist of WIP and completed elements:
 - [x] `<blink>` (`<quad-blink interval=[Number seconds]>`)
 - [x] `<strike>`, `<s>` (`<quad-strike>`, `<quad-s>`)
 - [x] `<u>` (`<quad-u>`)
+- [x] `<tt>` (`<quad-tt>`)
+- [x] `<big>` (`<quad-big>`)
+- [x] `<font>` (`<quad-font>`)
 - [ ] `<acronym>`
-- [ ] `<big>`
 - [ ] `<dir>`
-- [ ] `<font>`
 - [ ] `<plaintext>`
-- [ ] `<tt>`
+
