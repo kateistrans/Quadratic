@@ -1,6 +1,25 @@
 /**
  * Not to by used by itself, but to be used by other tags. 
  * @class
+ * @param {string|string[]} attributeName - The name (or list of names) of HTML attributes to change.
+ * @param {string|string[]} attributeValue - The name (or list of names) of values to set the HTML attributes to. Put this in the same order as attributeName!
+ */
+class QuadAttributed extends HTMLElement {
+    constructor(attributeName, attributeValue) {
+        self = super(attributeName, attributeValue);
+    }
+
+    connectedCallback() {
+        if(Array.isArray(self.attributeName) && Array.isArray(self.attributeValue)) {
+            self.attributeName.forEach((e, i) => self.setAttribute(e, self.attributeValue[i]))
+        } else self.setAttribute(self.attributeName, self.attributeValue);
+
+        Array.prototype.forEach.call(self.getElementsByTagName('*'),(e)=>{e.setAttribute(self.attributeName,self.attributeValue)});
+    }
+}
+/**
+ * Not to by used by itself, but to be used by other tags. 
+ * @class
  * @param {string|string[]} styleName - The name (or list of names) of CSS styles to change.
  * @param {string|string[]} styleValue - The name (or list of names) of values to set the CSS styles to. Put this in the same order as styleName!
  */
@@ -82,7 +101,11 @@ class QuadStrike extends QuadStyled {
  * @see QuadStrike
  */
 class QuadS extends QuadStrike {} 
-class QuadU extends QuadStyled { // quad-u tag
+/**
+ * Represents a quad-u tag. Prints text with a line under it.
+ * @class
+ */
+class QuadU extends QuadStyled { 
     constructor() {
         self = super();    
 
@@ -102,12 +125,36 @@ class QuadTT extends QuadStyled {
         self.styleValue = `"Lucida Console", "Menlo", "Monaco", "Courier", monospace`;
     }
 }
+/**
+ * Represents a quad-big tag. Increases contents' font-size by 1 conventional unit.
+ * @class
+ */
 class QuadBig extends QuadStyled { // quad-big tag
     constructor() {
         self = super();    
 
         self.styleName = "fontSize";
         self.styleValue = `larger`;
+    }
+}
+/**
+ * @classdesc Represents a quad-acronym tag. Prints text with a dotted underline that, when you hover, prints the full version of the acronym.
+ * @class
+ * @param {string} title - Full version of acronym.
+ */
+class QuadAcronym extends QuadStyled { // quad-acronym tag
+    static observedAttributes = ["title"];
+    constructor() {
+        self = super();    
+
+        self.styleName = ["textDecoration", "textDecorationStyle"];
+        self.styleValue = ["underline", "dotted"];
+    }
+    attributeChangedCallback(name, oldValue, newValue) {
+        if(name == "title") { 
+            self.setAttribute("title", newValue);
+            Array.prototype.forEach.call(self.getElementsByTagName('*'),(e)=>e.setAttribute("title", e));
+        }
     }
 }
 /**
@@ -149,3 +196,4 @@ customElements.define("quad-u", QuadU);
 customElements.define("quad-tt", QuadTT);
 customElements.define("quad-big", QuadBig);
 customElements.define("quad-font", QuadFont);
+customElements.define("quad-acronym", QuadAcronym);
