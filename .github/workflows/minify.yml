@@ -1,4 +1,4 @@
-name: Minify Workflow
+name: Minify Quadratic
 on:
   push:
     branches: [ main ]
