@@ -1,4 +1,10 @@
-class QuadStyled extends HTMLElement { // general-purpose tag to be extended that allows for styling different HTMLElements
+/**
+ * Not to by used by itself, but to be used by other tags. 
+ * @class
+ * @param {string|string[]} styleName - The name (or list of names) of CSS styles to change.
+ * @param {string|string[]} styleValue - The name (or list of names) of values to set the CSS styles to. Put this in the same order as styleName!
+ */
+class QuadStyled extends HTMLElement {
     constructor(styleName, styleValue) {
         self = super(styleName, styleValue);
     }
@@ -7,30 +13,49 @@ class QuadStyled extends HTMLElement { // general-purpose tag to be extended tha
         if(Array.isArray(self.styleName) && Array.isArray(self.styleValue)) {
             self.styleName.forEach((e,i)=>self.style[e]=self.styleValue[i]);
         } else self.style[self.styleName]=self.styleValue;
-        
+
         Array.prototype.forEach.call(self.getElementsByTagName('*'),(e)=>{e.style[self.styleName]=self.styleValue});
     }
 }
-class QuadCenteredText extends QuadStyled { // quad-center tag, center horizontally
+
+/**
+ * Represents a quad-center tag. Prints text centered horizontally on the window.
+ * @class
+ */
+class QuadCenteredText extends QuadStyled { 
     constructor() {
         self = super();
         self.styleName = ["textAlign","display"];
         self.styleValue = ["center","block"];
-        
+
     }
 }
-class QuadMarquee extends QuadStyled { // quad-marquee tag, limited functionality, only does right-to-left marquee
+/**
+ * Represents a quad-marquee tag. Prints text that moves right-to-left and loops every 6 seconds.
+ * @class
+ */
+class QuadMarquee extends QuadStyled { 
     constructor() {
         self = super();
         self.styleName=["animation", "whiteSpace"];
         self.styleValue=["marquee 6s linear infinite","nowrap"];
     }
 }
-class QuadBlink extends QuadStyled { // quad-blink tag, limited functionality, only does default blinking
+/**
+ * Represents a quad-blink tag. Prints text that blinks every second by default, but this can be changed using interval.
+ * @class
+ * @param {number} interval - A CSS color code, e.g. rgb(255,0,0) or #ff0000 .
+ */
+class QuadBlink extends QuadStyled {
     static observedAttributes = ["interval"];
     constructor() {
         self = super();
         self.styleName = "animation";
+        /**
+         * @constant
+         * @type {string}
+         * @default "blinker 1s linear infinite"
+         */
         self.styleValue = "blinker 1s linear infinite";
     }
 
@@ -41,8 +66,11 @@ class QuadBlink extends QuadStyled { // quad-blink tag, limited functionality, o
         }
     }
 }
-
-class QuadStrike extends QuadStyled { // quad-strike tag
+/**
+ * Represents a quad-strike tag. Prints text with a line through it.
+ * @class
+ */
+class QuadStrike extends QuadStyled { 
     constructor() {
         self = super();
 
@@ -50,7 +78,10 @@ class QuadStrike extends QuadStyled { // quad-strike tag
         self.styleValue = "line-through";
     }
 }
-class QuadS extends QuadStrike {} // quad-s tag, just duplicate quad-strike
+/**
+ * @see QuadStrike
+ */
+class QuadS extends QuadStrike {} 
 class QuadU extends QuadStyled { // quad-u tag
     constructor() {
         self = super();    
@@ -59,7 +90,11 @@ class QuadU extends QuadStyled { // quad-u tag
         self.styleValue = "underline";
     }
 }
-class QuadTT extends QuadStyled { // quad-tt tag
+/**
+ * Represents a quad-tt tag. Prints text in a teletype-like format.
+ * @class
+ */
+class QuadTT extends QuadStyled {
     constructor() {
         self = super();    
 
@@ -75,7 +110,14 @@ class QuadBig extends QuadStyled { // quad-big tag
         self.styleValue = `larger`;
     }
 }
-class QuadFont extends QuadStyled { // quad-font tag
+/**
+ * @classdesc Represents a quad-font tag. Anything inside this tag will inherit the color, face, and size of the quad-font tag.
+ * @class
+ * @param {string} color - A CSS color code, e.g. rgb(255,0,0) or #ff0000 .
+ * @param {string} face - A font face name, e.g. Arial, Helvetica, Times New Roman, etc.
+ * @param {string} size - A font size, e.g. 16px, 32pt, 24em, etc.
+ */
+class QuadFont extends QuadStyled {
     static observedAttributes = ["color", "face", "size"];
     constructor() {
         self = super();
@@ -97,6 +139,7 @@ class QuadFont extends QuadStyled { // quad-font tag
     }
 }
 
+// Define all of the elements as their respective classes.
 customElements.define("quad-center", QuadCenteredText);
 customElements.define("quad-marquee", QuadMarquee);
 customElements.define("quad-blink", QuadBlink);
